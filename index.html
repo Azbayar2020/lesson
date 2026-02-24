@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хичээлийн үнэлгээ</title>
+<style>
+body{font-family:Arial;text-align:center;background:#667eea;color:white;padding:30px}
+.emoji{font-size:50px;cursor:pointer;margin:15px}
+.count{font-size:20px;font-weight:bold}
+</style>
+</head>
+<body>
+
+<h2>📚 Өнөөдрийн хичээл ямар байсан бэ?</h2>
+
+<div>
+<span class="emoji" onclick="vote('bad')">😡</span>
+<span class="emoji" onclick="vote('neutral')">😐</span>
+<span class="emoji" onclick="vote('good')">🙂</span>
+<span class="emoji" onclick="vote('great')">😍</span>
+<span class="emoji" onclick="vote('excellent')">🏆</span>
+</div>
+
+<h3>Live үр дүн</h3>
+
+<div>😡 <span id="bad">0</span></div>
+<div>😐 <span id="neutral">0</span></div>
+<div>🙂 <span id="good">0</span></div>
+<div>😍 <span id="great">0</span></div>
+<div>🏆 <span id="excellent">0</span></div>
+
+<script>
+const url = "https://script.google.com/a/macros/oyuniituv.mn/s/AKfycbzuHEwkRD86DpJyjazuGI1e_e3--xVfyAy4s_L8IQFrjIsbn8eFOtd4vXu-8sULf4_piQ/exec";
+
+function vote(choice){
+  fetch(url,{
+    method:"POST",
+    body:JSON.stringify({choice:choice})
+  }).then(()=>alert("Санал өглөө!"));
+}
+
+function loadCounts(){
+  fetch(url)
+  .then(res=>res.json())
+  .then(data=>{
+    document.getElementById("bad").innerText=data.bad;
+    document.getElementById("neutral").innerText=data.neutral;
+    document.getElementById("good").innerText=data.good;
+    document.getElementById("great").innerText=data.great;
+    document.getElementById("excellent").innerText=data.excellent;
+  });
+}
+
+setInterval(loadCounts,2000);
+loadCounts();
+</script>
+
+</body>
+</html>
